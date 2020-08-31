@@ -14,16 +14,16 @@ Edit `composer.json` to reflect the package information. At a minimum, the packa
     "name": "vendor/package",
     "autoload": {
         "psr-4": {
-            "Vendor\\Package\\": "src/"
+            "Paksuco\\Pages\\": "src/"
         }
     },
 },
 ```
 
 
-### config/packagename.php
+### config/pages-ui.php
 
-The file `config/packagename.php`  should be renamed to to something more useful, like `config/my-package.php`. This is the configuration file that Laravel will publish into it's `config` directory.
+The file `config/pages-ui.php`  should be renamed to to something more useful, like `config/my-package.php`. This is the configuration file that Laravel will publish into it's `config` directory.
 
 
 ### src/ServiceProvider.php
@@ -42,7 +42,7 @@ public function boot() {
 }
 ```
 
-In the `handleConfigs()` method, the "packagename" references should be changed to the name you chose up above (in the `config/packagename.php` instructions).
+In the `handleConfigs()` method, the "pages-ui" references should be changed to the name you chose up above (in the `config/pages-ui.php` instructions).
 
 
 ### Last Step
