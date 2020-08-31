@@ -26,11 +26,12 @@ class PagesServiceProvider extends ServiceProvider
         $this->handleViews();
         $this->handleTranslations();
         $this->handleRoutes();
+        $this->handleResources();
 
         Event::listen("paksuco.menu.beforeRender", function ($key, $container) {
             if ($key == "admin") {
                 if ($container->hasItem("Pages") == false) {
-                    $container->addItem("Pages", route("paksuco.pages"), "fa fa-copy");
+                    $container->addItem("Pages", route("paksuco.pages.index"), "fa fa-copy");
                 }
             }
         });
@@ -60,7 +61,10 @@ class PagesServiceProvider extends ServiceProvider
     {
         $configPath = __DIR__ . '/../config/pages-ui.php';
 
-        $this->publishes([$configPath => base_path('config/pages-ui.php')], "config");
+        $this->publishes([
+            $configPath =>
+            base_path('config/pages-ui.php')
+        ], "config");
 
         $this->mergeConfigFrom($configPath, 'pages-ui');
     }
@@ -74,12 +78,26 @@ class PagesServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../views', 'pages-ui');
 
-        $this->publishes([__DIR__ . '/../views' => base_path('resources/views/vendor/pages-ui')], "views");
+        $this->publishes([
+            __DIR__ . '/../views' =>
+            base_path('resources/views/vendor/pages-ui')
+        ], "views");
+    }
+
+    private function handleResources()
+    {
+        $this->publishes([
+            __DIR__ . '/../resources/js/tinymce' =>
+            base_path('public/assets/vendor/tinymce')
+        ], "pages-tinymce");
     }
 
     private function handleMigrations()
     {
-        $this->publishes([__DIR__ . '/../migrations' => base_path('database/migrations')], "migrations");
+        $this->publishes([
+            __DIR__ . '/../migrations' =>
+            base_path('database/migrations')
+        ], "migrations");
     }
 
     private function handleRoutes()

@@ -11,5 +11,7 @@ Route::group([
     'prefix' => config("pages-ui.backend.admin_route_prefix", ""),
     'as' => 'paksuco.',
 ], function () {
-    Route::get('/pages', "\Paksuco\Pages\Controllers\PagesController@index")->name("pages")->middleware(config("pages-ui.backend.middleware", []));
+    Route::resource('/pages', "\Paksuco\Pages\Controllers\PagesController")
+        ->names("pages")
+        ->middleware(config("pages-ui.backend.middleware", []));
 });
