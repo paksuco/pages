@@ -2,7 +2,9 @@
 
 namespace Paksuco\Pages\Controllers;
 
-class PagesController extends \App\Http\Controllers\Controller
+use Illuminate\Routing\Controller as BaseController;
+
+class PagesController extends basecontroller
 {
     public function index()
     {
