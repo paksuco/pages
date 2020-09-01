@@ -2,6 +2,9 @@
 @section("content")
 <div class="p-8 bg-white border-t">
     <form method="POST" action="{{$edit ? route('paksuco.pages.update', $page->id) : route('paksuco.pages.store')}}">
+        @if($edit)
+        @method("PUT")
+        @endif
         @csrf
         <div class="w-full items-end">
             <div class="flex mb-4">
@@ -14,7 +17,8 @@
                     <button type="submit" name="publish" value="0"
                         class="border px-4 py-2 rounded shadow bg-blue-400
                         text-white border-blue-500">Save</button>
-                    @if($page->published == false)
+
+                    @if($edit == false || $page->published == false)
                         <button type="submit" name="publish" value="1"
                             class="border px-4 py-2 rounded shadow bg-green-400
                             text-white border-green-500">Save & Publish</button>
@@ -47,10 +51,10 @@
             link media template codesample table charmap hr pagebreak nonbreaking \
             anchor toc insertdatetime advlist lists textcolor wordcount \
             tinymcespellchecker a11ychecker imagetools mediaembed  linkchecker \
-            contextmenu colorpicker textpattern help',
+            contextmenu colorpicker textpattern help code',
         toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | \
             link | alignleft aligncenter alignright alignjustify  | numlist bullist \
-            outdent indent  | removeformat',
+            outdent indent  | removeformat | code',
         image_advtab: true,
         templates: [
             { title: 'Test template 1', content: 'Test 1' },
