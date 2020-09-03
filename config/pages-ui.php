@@ -27,5 +27,10 @@ return [
          * Your admin template layout to extend
          */
         "template_to_extend" => "layouts.app",
+
+        /**
+         * Image uploads path
+         */
+        "image_upload_path" => public_path('/storage/uploads')
     ],
 ];

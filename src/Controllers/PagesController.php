@@ -4,6 +4,7 @@ namespace Paksuco\Pages\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Paksuco\Pages\Models\Page;
 
@@ -135,5 +136,29 @@ class PagesController extends Controller
             $page->delete();
         }
         return redirect()->route("paksuco.pages.index")->with("sucess", "Page has been successfully deleted.");
+    }
+
+    public function upload(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json([
+                'message' => $validation->errors()->all(),
+            ], 400);
+        }
+
+        $image = $request->file('file');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $path = config('pages-ui::backend.image_upload_folder', public_path('uploads'));
+        $image->move($path, $new_name);
+
+        $url = str_replace(public_path(), '', $path . "/" . $new_name);
+
+        return response()->json([
+            'location' => $url
+        ]);
     }
 }

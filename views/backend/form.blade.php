@@ -46,12 +46,12 @@
         selector: '#mytextarea',
         height: 500,
         language: "{{config('app.locale')}}",
-        plugins: 'print preview fullpage powerpaste searchreplace autolink \
+        plugins: 'preview powerpaste searchreplace autolink \
             directionality advcode visualblocks visualchars fullscreen image \
             link media template codesample table charmap hr pagebreak nonbreaking \
             anchor toc insertdatetime advlist lists textcolor wordcount \
-            tinymcespellchecker a11ychecker imagetools mediaembed  linkchecker \
-            contextmenu colorpicker textpattern help code',
+            tinymcespellchecker a11ychecker imagetools mediaembed linkchecker \
+            contextmenu colorpicker textpattern code',
         toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | \
             link | alignleft aligncenter alignright alignjustify  | numlist bullist \
             outdent indent  | removeformat | code',
@@ -60,6 +60,31 @@
             { title: 'Test template 1', content: 'Test 1' },
             { title: 'Test template 2', content: 'Test 2' }
         ],
+        images_upload_handler: function (blobInfo, success, failure) {
+           var xhr, formData;
+           xhr = new XMLHttpRequest();
+           xhr.withCredentials = false;
+           xhr.open('POST', '{{route("paksuco.pages.upload")}}');
+           var token = '{{ csrf_token() }}';
+           xhr.setRequestHeader("X-CSRF-Token", token);
+           xhr.onload = function() {
+               var json;
+               if (xhr.status != 200) {
+                   failure('HTTP Error: ' + xhr.status);
+                   return;
+               }
+               json = JSON.parse(xhr.responseText);
+
+               if (!json || typeof json.location != 'string') {
+                   failure('Invalid JSON: ' + xhr.responseText);
+                   return;
+               }
+               success(json.location);
+           };
+           formData = new FormData();
+           formData.append('file', blobInfo.blob(), blobInfo.filename());
+           xhr.send(formData);
+       }
     });
 </script>
 @endpush
