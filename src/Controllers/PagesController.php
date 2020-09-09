@@ -46,7 +46,13 @@ class PagesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "title" => "required|filled",
+            "title" => "required|filled"
+        ]);
+
+        $request->merge(["slug" => Str::slug($request->title)]);
+
+        $request->validate([
+            "slug" => "unique:pages,page_slug,NULL,id",
             "content" => "required|filled",
             "publish" => "required|filled",
         ]);
@@ -59,7 +65,7 @@ class PagesController extends Controller
         $page->published = $request->publish == "1" ? true : false;
         $page->save();
 
-        return redirect()->route("paksuco.pages.index")->with("status", "success");
+        return redirect()->route("paksuco.pages.index")->with("success", "Page has been successfully saved.");
     }
 
     /**
@@ -68,10 +74,8 @@ class PagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Page $page)
     {
-        $page = Page::findOrFail($id);
-
         return view("pages-ui::frontend.show", [
             "page" => $page,
             "extends" => config("pages-ui.frontend.template_to_extend", "layouts.app"),
@@ -84,10 +88,8 @@ class PagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Page $page)
     {
-        $page = Page::findOrFail($id);
-
         return view("pages-ui::backend.form", [
             "extends" => config("pages-ui.backend.template_to_extend", "layouts.app"),
             "edit" => true,
@@ -102,15 +104,20 @@ class PagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Page $page)
     {
         $request->validate([
-            "title" => "required|filled",
+            "title" => "required|filled"
+        ]);
+
+        $request->merge(["slug" => Str::slug($request->title)]);
+
+        $request->validate([
+            "slug" => "unique:pages,page_slug,".$page->id.",id",
             "content" => "required|filled",
             "publish" => "required|filled",
         ]);
 
-        $page = Page::findOrFail($id);
         $page->page_title = $request->title;
         $page->page_content = $request->content;
         $page->page_slug = Str::slug($request->title);
@@ -120,7 +127,9 @@ class PagesController extends Controller
         }
         $page->save();
 
-        return redirect()->route("paksuco.pages.index")->with("status", "success");
+        return redirect()
+            ->route("paksuco.pages.index")
+            ->with("success", "Page has been successfully updated.");
     }
 
     /**
@@ -129,13 +138,12 @@ class PagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Page $page)
     {
-        $page = Page::find($id);
-        if ($page instanceof Page) {
-            $page->delete();
-        }
-        return redirect()->route("paksuco.pages.index")->with("sucess", "Page has been successfully deleted.");
+        $page->delete();
+        return redirect()
+            ->route("paksuco.pages.index")
+            ->with("success", "Page has been successfully deleted.");
     }
 
     public function upload(Request $request)

@@ -1,7 +1,8 @@
 @extends($extends)
 @section("content")
 <div class="p-8 bg-white border-t">
-    <form method="POST" action="{{$edit ? route('paksuco.pages.update', $page->id) : route('paksuco.pages.store')}}">
+    @include('pages-ui::backend.submitresults')
+    <form method="POST" action="{{$edit ? route('paksuco.pages.update', $page->page_slug) : route('paksuco.pages.store')}}">
         @if($edit)
         @method("PUT")
         @endif

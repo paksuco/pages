@@ -9,6 +9,6 @@ class Page extends Model
 
     public function getRouteKeyName()
     {
-        return "post_slug";
+        return "page_slug";
     }
 }
