@@ -31,7 +31,13 @@ class PagesServiceProvider extends ServiceProvider
         Event::listen("paksuco.menu.beforeRender", function ($key, $container) {
             if ($key == "admin") {
                 if ($container->hasItem("Pages") == false) {
-                    $container->addItem("Pages", route("paksuco.pages.index"), "fa fa-copy");
+                    $container->addItem(
+                        "Pages",
+                        route("paksuco.pages.index"),
+                        "fa fa-copy",
+                        null,
+                        config("pages-ui.backend.menu_priority", 30)
+                    );
                 }
             }
         });
@@ -63,7 +69,7 @@ class PagesServiceProvider extends ServiceProvider
 
         $this->publishes([
             $configPath =>
-            base_path('config/pages-ui.php')
+            base_path('config/pages-ui.php'),
         ], "config");
 
         $this->mergeConfigFrom($configPath, 'pages-ui');
@@ -80,7 +86,7 @@ class PagesServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../views' =>
-            base_path('resources/views/vendor/pages-ui')
+            base_path('resources/views/vendor/pages-ui'),
         ], "views");
     }
 
@@ -88,7 +94,7 @@ class PagesServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../resources/js/tinymce' =>
-            base_path('public/assets/vendor/tinymce')
+            base_path('public/assets/vendor/tinymce'),
         ], "pages-tinymce");
     }
 
@@ -96,7 +102,7 @@ class PagesServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../migrations' =>
-            base_path('database/migrations')
+            base_path('database/migrations'),
         ], "migrations");
     }
 

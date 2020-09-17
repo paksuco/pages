@@ -15,6 +15,7 @@ class PagesTable extends \Paksuco\Table\Contracts\TableSettings
 
     public $fields = [
         [
+            "title" => "#",
             "name" => "id",
             "type" => "field",
             "format" => "string",
@@ -23,6 +24,7 @@ class PagesTable extends \Paksuco\Table\Contracts\TableSettings
             "filterable" => false,
         ],
         [
+            "title" => "Page Title",
             "name" => "page_title",
             "type" => "field",
             "format" => "string",
@@ -31,6 +33,7 @@ class PagesTable extends \Paksuco\Table\Contracts\TableSettings
             "filterable" => true,
         ],
         [
+            "title" => "Excerpt",
             "name" => "page_excerpt",
             "type" => "callback",
             "format" => PagesTable::class . "::getExcerpt",
@@ -39,6 +42,7 @@ class PagesTable extends \Paksuco\Table\Contracts\TableSettings
             "filterable" => false,
         ],
         [
+            "title" => "Published?",
             "name" => "published",
             "type" => "field",
             "format" => "checkbox",
@@ -47,6 +51,7 @@ class PagesTable extends \Paksuco\Table\Contracts\TableSettings
             "filterable" => true,
         ],
         [
+            "title" => "Updated At",
             "name" => "updated_at",
             "type" => "field",
             "format" => "datetime",
@@ -55,6 +60,7 @@ class PagesTable extends \Paksuco\Table\Contracts\TableSettings
             "filterable" => false,
         ],
         [
+            "title" => "Created At",
             "name" => "created_at",
             "type" => "field",
             "format" => "datetime",
@@ -63,6 +69,7 @@ class PagesTable extends \Paksuco\Table\Contracts\TableSettings
             "filterable" => false,
         ],
         [
+            "title" => "Actions",
             "name" => "actions",
             "type" => "callback",
             "format" => PagesTable::class . "::getActions",
