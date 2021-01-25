@@ -7,33 +7,30 @@
         @method("PUT")
         @endif
         @csrf
-        <div class="w-full items-end">
+        <div class="items-end w-full">
             <div class="flex mb-4">
                 <div class="w-2/3">
-                    <h2 class="text-3xl font-semibold mb-3" style="line-height: 1em">
+                    <h2 class="mb-3 text-3xl font-semibold" style="line-height: 1em">
                         {{$edit ? __("Edit Page") : __("Create a new Page")}}
                     </h2>
                 </div>
                 <div class="w-1/3 text-right">
                     <button type="submit" name="publish" value="0"
-                        class="border px-4 py-2 rounded shadow bg-blue-400
-                        text-white border-blue-500">Save</button>
+                        class="px-4 py-2 text-white bg-blue-400 border border-blue-500 rounded shadow">@lang('Save')</button>
 
                     @if($edit == false || $page->published == false)
                         <button type="submit" name="publish" value="1"
-                            class="border px-4 py-2 rounded shadow bg-green-400
-                            text-white border-green-500">Save & Publish</button>
+                            class="px-4 py-2 text-white bg-green-400 border border-green-500 rounded shadow">@lang('Save &amp; Publish')</button>
                     @else
                         <button type="submit" name="publish" value="-1"
-                            class="border px-4 py-2 rounded shadow bg-red-700
-                            text-white border-red-800">Un-publish</button>
+                            class="px-4 py-2 text-white bg-red-700 border border-red-800 rounded shadow">@lang('Un-publish')</button>
                     @endif
-                    <button type="button" class="border px-4 py-2 rounded shadow"
-                        onclick="window.location = '{{route("paksuco.pages.index")}}';">Go Back</button>
+                    <button type="button" class="px-4 py-2 border rounded shadow"
+                        onclick="window.location = '{{route("paksuco.pages.index")}}';">@lang('Go Back')</button>
                 </div>
             </div>
             <input type="text" name="title" placeholder="@lang('Enter Title')"
-                class="border rounded-sm shadow-inner w-full text-2xl p-2 px-4 mb-3" value="{{$edit ? $page->page_title : ''}}">
+                class="w-full p-2 px-4 mb-3 text-2xl border rounded-sm shadow-inner" value="{{$edit ? $page->page_title : ''}}">
             <textarea id="mytextarea" name="content" class="shadow">{{$edit ? $page->page_content : ''}}</textarea>
         </div>
     </form>
